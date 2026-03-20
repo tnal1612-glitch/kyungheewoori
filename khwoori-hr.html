@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경희우리한방병원 · 인사관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1a2e;--ink2:#23233e;--gold:#c9a84c;--gold2:#e8c96e;
+  --jade:#3d7a5e;--jade2:#4e9a78;--red:#9b2335;--sky:#4178a0;
+  --cream:#f8f4ed;--cream2:#ede8df;--text:#25253a;--muted:#7a7a96;
+  --border:rgba(201,168,76,0.17);--sh:0 2px 12px rgba(26,26,46,0.08);--r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--cream);color:var(--text);font-size:13.5px;}
+.hdr{height:54px;background:var(--ink);display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:200;box-shadow:0 2px 14px rgba(0,0,0,.24);}
+.hdr-logo{display:flex;align-items:center;gap:9px;margin-right:20px;}
+.hdr-em{width:31px;height:31px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-weight:700;font-size:14px;color:var(--ink);}
+.hdr-nm{font-family:'Noto Serif KR',serif;font-size:13.5px;font-weight:600;color:var(--cream);}
+.hdr-sub{font-size:9.5px;color:rgba(201,168,76,.65);margin-top:1px;}
+.hdr-r{display:flex;align-items:center;gap:10px;margin-left:auto;}
+.hdr-date{font-size:11px;color:rgba(248,244,237,.32);}
+.rbadge{padding:3px 10px;border-radius:99px;font-size:10.5px;font-weight:600;cursor:pointer;transition:.2s;}
+.rbadge.adm{background:rgba(201,168,76,.18);color:var(--gold2);}
+.rbadge.usr{background:rgba(61,122,94,.18);color:#7dd4aa;}
+.hav{width:29px;height:29px;background:var(--jade);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;}
+.wrap{display:flex;min-height:calc(100vh - 54px);}
+.sb{width:186px;background:var(--ink2);flex-shrink:0;padding:10px 0 20px;}
+.sb-sec{font-size:9px;font-weight:700;color:rgba(201,168,76,.4);letter-spacing:.13em;text-transform:uppercase;padding:13px 16px 4px;}
+.sbi{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:12.5px;color:rgba(248,244,237,.46);cursor:pointer;border-left:3px solid transparent;transition:.14s;user-select:none;}
+.sbi:hover{color:rgba(248,244,237,.78);}
+.sbi.on{color:var(--gold2);border-left-color:var(--gold);background:rgba(201,168,76,.07);font-weight:500;}
+.sbi-ic{font-size:13px;width:15px;text-align:center;flex-shrink:0;}
+.main{flex:1;padding:22px 26px;overflow-y:auto;}
+.pg{display:none;}.pg.on{display:block;animation:fu .18s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.ph{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px;}
+.ph-t{font-family:'Noto Serif KR',serif;font-size:19px;font-weight:700;color:var(--ink);}
+.ph-s{font-size:11.5px;color:var(--muted);margin-top:3px;}
+.sg{display:grid;gap:11px;margin-bottom:16px;}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.st{background:#fff;border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);padding:13px 15px;position:relative;overflow:hidden;transition:transform .16s;}
+.st:hover{transform:translateY(-2px)}
+.st::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.jade::before{background:var(--jade)}.red::before{background:var(--red)}.gold::before{background:var(--gold)}.sky::before{background:var(--sky)}.ink::before{background:var(--ink)}
+.sl{font-size:10px;color:var(--muted);font-weight:600;}.sv{font-family:'Noto Serif KR',serif;font-size:23px;font-weight:700;color:var(--ink);margin:3px 0 1px;line-height:1;}.sn{font-size:11px;color:var(--muted);}
+.card{background:#fff;border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;margin-bottom:13px;}
+.card:last-child{margin-bottom:0;}
+.ch{padding:11px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(248,244,237,.4);}
+.cht{font-family:'Noto Serif KR',serif;font-size:13.5px;font-weight:600;color:var(--ink);}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
+.tbl th{padding:8px 12px;text-align:left;font-size:9.5px;font-weight:700;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;background:rgba(248,244,237,.5);border-bottom:1px solid var(--border);}
+.tbl td{padding:10px 12px;border-bottom:1px solid rgba(201,168,76,.07);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(201,168,76,.025)}
+.bd{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:600;}
+.bj{background:rgba(61,122,94,.11);color:var(--jade)}.bg{background:rgba(201,168,76,.14);color:#7a5d14}.br{background:rgba(155,35,53,.09);color:var(--red)}.bs{background:rgba(65,120,160,.1);color:var(--sky)}.bi{background:rgba(26,26,46,.07);color:var(--ink)}.bx{background:rgba(120,120,150,.09);color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:none;transition:.14s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;}
+.bgold{background:var(--gold);color:var(--ink)}.bgold:hover{background:var(--gold2)}
+.bjade{background:var(--jade);color:#fff}.bjade:hover{background:var(--jade2)}
+.bgh{background:transparent;color:var(--muted);border:1px solid var(--border)}.bgh:hover{background:var(--cream2)}
+.bred{background:rgba(155,35,53,.08);color:var(--red);border:1px solid rgba(155,35,53,.17)}.bred:hover{background:rgba(155,35,53,.14)}
+.bsky{background:rgba(65,120,160,.1);color:var(--sky);border:1px solid rgba(65,120,160,.2)}.bsky:hover{background:rgba(65,120,160,.18)}
+.bsm{padding:3px 9px;font-size:11px;}
+.emp{display:flex;align-items:center;gap:8px;}
+.av{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.en{font-weight:500;font-size:13px;}.ei{font-size:11px;color:var(--muted);}
+.prog{height:5px;background:var(--cream2);border-radius:99px;overflow:hidden;}
+.pf{height:100%;border-radius:99px;background:var(--jade);}
+.sr{display:flex;gap:7px;margin-bottom:12px;}
+.sinp{flex:1;padding:7px 11px;border:1px solid var(--border);border-radius:7px;font-size:12.5px;font-family:'Noto Sans KR',sans-serif;background:#fff;color:var(--text);outline:none;}
+.sinp:focus{border-color:var(--gold)}.sinp::placeholder{color:var(--muted)}
+.fg{margin-bottom:11px;}.fl{display:block;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px;}
+.fi,.fs{width:100%;padding:7px 11px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:'Noto Sans KR',sans-serif;color:var(--text);background:#fff;outline:none;}
+.fi:focus,.fs:focus{border-color:var(--gold)}.f2{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+textarea.fi{resize:vertical;min-height:72px;}
+.ov{position:fixed;inset:0;background:rgba(18,18,36,.55);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:14px;}
+.ov.open{display:flex;}
+.modal{background:#fff;border-radius:12px;padding:22px 24px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;box-shadow:0 18px 52px rgba(18,18,36,.28);animation:mi .18s ease;}
+.modal-lg{max-width:560px;}
+@keyframes mi{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.mt{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:15px;display:flex;align-items:center;justify-content:space-between;}
+.mc{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);line-height:1;}
+.mf{display:flex;gap:7px;justify-content:flex-end;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.toast{position:fixed;bottom:16px;right:16px;background:var(--ink);color:var(--cream);padding:9px 14px;border-radius:8px;font-size:13px;z-index:900;box-shadow:0 5px 18px rgba(0,0,0,.2);border-left:3px solid var(--gold);transform:translateY(44px);opacity:0;transition:.2s;pointer-events:none;}
+.toast.on{transform:translateY(0);opacity:1;}
+.ib{background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.24);border-left:3px solid var(--gold);border-radius:7px;padding:10px 13px;font-size:12.5px;line-height:1.7;margin-bottom:11px;}
+.ibj{background:rgba(61,122,94,.08);border-color:rgba(61,122,94,.22);border-left-color:var(--jade);}
+.ibr{background:rgba(155,35,53,.07);border-color:rgba(155,35,53,.2);border-left-color:var(--red);}
+.ibs{background:rgba(65,120,160,.07);border-color:rgba(65,120,160,.2);border-left-color:var(--sky);}
+.ib-t{font-weight:600;color:var(--ink);margin-bottom:2px;}
+/* NOTICE TABS */
+.ntabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:14px;flex-wrap:wrap;}
+.ntab{padding:8px 14px;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:.14s;background:none;border-left:none;border-top:none;border-right:none;font-family:'Noto Sans KR',sans-serif;}
+.ntab:hover{color:var(--text)}.ntab.on{color:var(--ink);border-bottom-color:var(--gold);font-weight:600;}
+.nc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:9px;cursor:pointer;transition:.14s;box-shadow:var(--sh);}
+.nc:hover{border-color:var(--gold);transform:translateX(2px);}
+.nc-meta{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.nc-t{font-family:'Noto Serif KR',serif;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.nc-b{font-size:12px;color:var(--muted);line-height:1.6;}
+/* TOGGLE */
+.tog{width:33px;height:18px;border-radius:99px;background:var(--cream2);cursor:pointer;position:relative;transition:.18s;flex-shrink:0;border:none;}
+.tog::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.15);}
+.tog.on{background:var(--jade);}.tog.on::after{transform:translateX(15px);}
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.pc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px;box-shadow:var(--sh);}
+.pc-t{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.pc-d{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.55;}
+.pr{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;margin-bottom:8px;}
+.pr:last-child{margin-bottom:0;}
+/* CALENDAR */
+.cal{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:13px;box-shadow:var(--sh);}
+.cal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-t{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:600;color:var(--ink);}
+.cal-nb{background:none;border:1px solid var(--border);border-radius:5px;padding:2px 6px;cursor:pointer;color:var(--muted);font-size:11.5px;}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cdn{text-align:center;font-size:9.5px;font-weight:700;color:var(--muted);padding:2px 0;}
+.cd{text-align:center;font-size:11.5px;padding:5px 2px;border-radius:6px;cursor:pointer;transition:.1s;position:relative;min-height:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
+.cd:hover{background:var(--cream2)}.cd.today{background:var(--gold);color:var(--ink);font-weight:700}
+.cd.has-leave{background:rgba(61,122,94,.1);}
+.cd.other{opacity:.32}.cd.wknd{color:var(--red)}
+.cd.today.has-leave{background:var(--gold);}
+.leave-dots{display:flex;gap:2px;justify-content:center;flex-wrap:wrap;margin-top:2px;}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(--jade);flex-shrink:0;}
+.ldot-gold{background:var(--gold);}
+/* calendar tooltip popup */
+.cal-popup{position:fixed;background:var(--ink);color:var(--cream);padding:10px 14px;border-radius:9px;font-size:12px;z-index:400;box-shadow:0 6px 20px rgba(0,0,0,.28);pointer-events:none;display:none;min-width:140px;border-left:3px solid var(--gold);}
+.cal-popup.show{display:block;}
+/* LEAVE LAYOUT */
+.ll{display:grid;grid-template-columns:230px 1fr;gap:13px;align-items:start;}
+/* ORG TABS */
+.org-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.org-tab{padding:8px 16px;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:.14s;background:none;border-left:none;border-top:none;border-right:none;font-family:'Noto Sans KR',sans-serif;}
+.org-tab:hover{color:var(--text)}.org-tab.on{color:var(--ink);border-bottom-color:var(--gold);font-weight:600;}
+.org-view{display:none;}.org-view.on{display:block;animation:fu .18s ease;}
+.org{padding:14px 4px;overflow-x:auto;}
+.org-lv{display:flex;justify-content:center;gap:10px;}
+.org-vl{width:2px;height:14px;background:var(--border);margin:0 auto;}
+.on2{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;text-align:center;min-width:94px;box-shadow:var(--sh);transition:.16s;}
+.on2:hover{border-color:var(--gold);transform:translateY(-2px);}
+.on2.root{background:var(--ink);border-color:var(--ink);}
+.on2.root .or2{color:var(--gold);}.on2.root .on2n{color:var(--cream);}
+.on2.dh{background:rgba(61,122,94,.06);border-color:rgba(61,122,94,.22);}
+.on2.dh .or2{color:var(--jade);}
+.or2{font-size:8.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px;}
+.on2n{font-weight:600;font-size:12.5px;color:var(--ink);}
+.on2d{font-size:9.5px;color:var(--muted);margin-top:1px;}
+/* dept detail card */
+.dept-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);margin-bottom:12px;}
+.dept-card-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.dept-badge{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.dept-name{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:var(--ink);}
+.dept-head{font-size:12px;color:var(--muted);margin-top:2px;}
+.dept-members{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.dept-member{background:var(--cream);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:10px;}
+.dm-info{}
+.dm-name{font-weight:600;font-size:13px;color:var(--ink);}
+.dm-role{font-size:11px;color:var(--muted);margin-top:1px;}
+/* ONBOARDING */
+.obl{display:grid;grid-template-columns:178px 1fr;gap:14px;align-items:start;}
+.obnav{background:#fff;border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;position:sticky;top:66px;}
+.obn-h{background:var(--ink);padding:10px 14px;font-family:'Noto Serif KR',serif;font-size:12px;font-weight:600;color:var(--cream);}
+.obn-i{display:flex;align-items:center;gap:7px;padding:8px 14px;font-size:12px;color:var(--muted);cursor:pointer;border-left:3px solid transparent;border-bottom:1px solid rgba(201,168,76,.07);transition:.12s;}
+.obn-i:hover{background:var(--cream)}.obn-i.on{background:rgba(201,168,76,.07);color:var(--ink);border-left-color:var(--gold);font-weight:500;}
+.obn-i.done{color:var(--jade);}
+.ob-ck{margin-left:auto;font-size:10px;opacity:0;}.obn-i.done .ob-ck{opacity:1;}
+.ob-pw{padding:9px 14px;border-top:1px solid var(--border);background:var(--cream);}
+.ob-pl{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:4px;}
+.obs{display:none;animation:fu .18s ease;}.obs.on{display:block;}
+.ob-hero{background:var(--ink);border-radius:var(--r);padding:20px 22px;margin-bottom:12px;position:relative;overflow:hidden;}
+.ob-hero::after{content:'';position:absolute;right:-10px;top:-10px;width:96px;height:96px;border-radius:50%;background:rgba(201,168,76,.07);}
+.ob-hi{font-size:24px;margin-bottom:7px;}.ob-ht{font-family:'Noto Serif KR',serif;font-size:15.5px;font-weight:700;color:var(--cream);margin-bottom:3px;}.ob-hd{font-size:11.5px;color:rgba(248,244,237,.52);line-height:1.65;}
+/* CHECKLIST STYLE STEPS */
+.ob-cl{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.ob-cli{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);padding:12px 15px;display:flex;align-items:flex-start;gap:11px;transition:all .16s;cursor:pointer;}
+.ob-cli:hover{border-color:rgba(201,168,76,.35);}
+.ob-cli.checked{background:rgba(61,122,94,.04);border-color:rgba(61,122,94,.28);}
+.ob-chkbox{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .18s;font-size:11px;color:transparent;background:#fff;}
+.ob-cli.checked .ob-chkbox{background:var(--jade);border-color:var(--jade);color:#fff;}
+.ob-cli-body{flex:1;}
+.ob-cli-title{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:2px;transition:color .16s;}
+.ob-cli.checked .ob-cli-title{color:var(--jade);}
+.ob-cli-desc{font-size:11.5px;color:var(--muted);line-height:1.6;}
+.ob-cli-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;}
+.ob-cli-tag{padding:1px 7px;border-radius:99px;font-size:10px;background:var(--cream2);color:var(--muted);font-weight:500;}
+.doci{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 13px;display:flex;align-items:center;gap:9px;cursor:pointer;margin-bottom:7px;transition:.12s;box-shadow:var(--sh);}
+.doci:hover{border-color:var(--gold);transform:translateX(2px);}
+.doc-ic{font-size:17px;width:33px;height:33px;background:var(--cream);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-n{font-weight:500;font-size:12.5px;color:var(--ink);}.doc-m{font-size:10.5px;color:var(--muted);margin-top:1px;}
+.ob-nb{display:flex;justify-content:space-between;margin-top:12px;}
+.cc-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.cc{background:#fff;border:1px solid var(--border);border-radius:8px;padding:11px 13px;box-shadow:var(--sh);}
+.cc-r{font-size:8.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px;}
+.cc-n{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:3px;}.cc-i{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:3px;margin-top:1px;}
+.dg{display:grid;grid-template-columns:1.4fr 1fr;gap:13px;}
+/* ID INFO BOX */
+.id-info{background:rgba(65,120,160,.07);border:1px solid rgba(65,120,160,.22);border-left:3px solid var(--sky);border-radius:7px;padding:10px 13px;font-size:12px;line-height:1.7;margin-bottom:11px;}
+.id-code{font-family:monospace;font-size:13px;background:var(--cream2);padding:2px 7px;border-radius:4px;color:var(--ink);font-weight:600;}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-logo"><div class="hdr-em">경</div><div><div class="hdr-nm">경희우리한방병원</div><div class="hdr-sub">인사관리시스템</div></div></div>
+  <div class="hdr-r">
+    <span class="hdr-date" id="hdrDate"></span>
+    <div class="rbadge adm" id="rBadge" onclick="toggleRole()" title="클릭하여 권한 전환 (미리보기)">👑 관리자</div>
+    <div class="hav">관</div>
+  </div>
+</header>
+<div class="wrap">
+<nav class="sb">
+  <div class="sb-sec">메인</div>
+  <div class="sbi on" data-pg="dash"><span class="sbi-ic">🏠</span>대시보드</div>
+  <div class="sb-sec">직원</div>
+  <div class="sbi" data-pg="emp"><span class="sbi-ic">👤</span>직원 정보</div>
+  <div class="sbi" data-pg="org"><span class="sbi-ic">🌿</span>조직도</div>
+  <div class="sb-sec">근무</div>
+  <div class="sbi adm-only" data-pg="att"><span class="sbi-ic">⏱</span>근태 관리</div>
+  <div class="sbi" data-pg="leave"><span class="sbi-ic">🗓</span>연차 관리</div>
+  <div class="sb-sec">평가</div>
+  <div class="sbi adm-only" data-pg="eval"><span class="sbi-ic">⭐</span>인사 평가</div>
+  <div class="sb-sec">소통</div>
+  <div class="sbi" data-pg="notice"><span class="sbi-ic">📢</span>공지사항</div>
+  <div class="sbi" data-pg="ob"><span class="sbi-ic">📖</span>온보딩 매뉴얼</div>
+  <div class="sb-sec">설정</div>
+  <div class="sbi adm-only" data-pg="perm"><span class="sbi-ic">🔐</span>권한 관리</div>
+</nav>
+<main class="main">
+
+<!-- ══ 대시보드 ══ -->
+<div id="pg-dash" class="pg on">
+  <div class="ph"><div><div class="ph-t">대시보드</div><div class="ph-s">경희우리한방병원 인사 현황</div></div></div>
+  <div class="sg g2" style="margin-bottom:14px">
+    <div class="st jade"><div class="sl">오늘 출근</div><div class="sv">13</div><div class="sn">전체 18명 중</div></div>
+    <div class="st red"><div class="sl">오늘 휴무·연차</div><div class="sv">5</div><div class="sn">연차 3 · 병가 1 · 반차 1</div></div>
+  </div>
+  <div class="dg">
+    <div>
+      <div class="card">
+        <div class="ch"><span class="cht">오늘 출퇴근 현황</span><span class="bd bj" id="dashDate"></span></div>
+        <table class="tbl"><thead><tr><th>직원</th><th>출근</th><th>퇴근</th><th>상태</th></tr></thead><tbody>
+          <tr><td><div class="emp"><div class="av" style="background:#3d7a5e">김</div><div><div class="en">김민준</div><div class="ei">원장실</div></div></div></td><td>08:45</td><td>—</td><td><span class="bd bj">근무중</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#c9a84c">이</div><div><div class="en">이수연</div><div class="ei">간호부</div></div></div></td><td>08:52</td><td>—</td><td><span class="bd bj">근무중</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#9b2335">박</div><div><div class="en">박지훈</div><div class="ei">재활센터</div></div></div></td><td>09:05</td><td>—</td><td><span class="bd bj">근무중</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#1a1a2e">최</div><div><div class="en">최유진</div><div class="ei">원무과</div></div></div></td><td>—</td><td>—</td><td><span class="bd bg">연차</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#5a7a9a">정</div><div><div class="en">정다은</div><div class="ei">재활센터</div></div></div></td><td>—</td><td>—</td><td><span class="bd br">병가</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="cht">📅 오늘 휴무·연차 직원</span></div>
+        <table class="tbl"><thead><tr><th>직원</th><th>구분</th><th>기간</th><th>복귀 예정</th></tr></thead><tbody>
+          <tr><td><div class="emp"><div class="av" style="background:#1a1a2e">최</div><div><div class="en">최유진</div><div class="ei">원무과</div></div></div></td><td><span class="bd bg">연차</span></td><td>3/20</td><td>3/21 (내일)</td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#5a7a9a">정</div><div><div class="en">정다은</div><div class="ei">재활센터</div></div></div></td><td><span class="bd br">병가</span></td><td>3/19~21</td><td>3/24 (월)</td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#7a5a9a">한</div><div><div class="en">한소희</div><div class="ei">간호부</div></div></div></td><td><span class="bd bg">반차</span></td><td>오후 반차</td><td>내일</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <div class="ch"><span class="cht">📢 최근 공지</span><button class="btn bgh bsm" onclick="goNav('notice')">전체보기</button></div>
+        <div style="padding:10px 12px;display:flex;flex-direction:column;gap:7px">
+          <div style="padding:8px 11px;border-radius:7px;background:rgba(201,168,76,.08);border-left:3px solid var(--gold)"><div style="font-size:10px;color:var(--muted)">2025.03.18</div><div style="font-size:12.5px;font-weight:500;margin-top:1px">3월 급여 지급일 안내 (3/25)</div></div>
+          <div style="padding:8px 11px;border-radius:7px;background:rgba(61,122,94,.08);border-left:3px solid var(--jade)"><div style="font-size:10px;color:var(--muted)">2025.03.15</div><div style="font-size:12.5px;font-weight:500;margin-top:1px">3월 연차 사용 촉진 안내</div></div>
+          <div style="padding:8px 11px;border-radius:7px;background:rgba(155,35,53,.06);border-left:3px solid var(--red)"><div style="font-size:10px;color:var(--muted)">2025.03.10</div><div style="font-size:12.5px;font-weight:500;margin-top:1px">4월 정기 건강검진 일정</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="cht">빠른 메뉴</span></div>
+        <div style="padding:10px 12px;display:flex;flex-direction:column;gap:6px">
+          <button class="btn bgh" style="justify-content:flex-start;padding:9px 12px" onclick="openM('addLeaveM')">＋ 휴가 신청</button>
+          <button class="btn bgh" style="justify-content:flex-start;padding:9px 12px" onclick="openM('addNoticeM')">＋ 공지 작성</button>
+          <button class="btn bgh" style="justify-content:flex-start;padding:9px 12px" onclick="goNav('ob')">📖 온보딩 매뉴얼</button>
+          <button class="btn bgh" style="justify-content:flex-start;padding:9px 12px" onclick="goNav('perm')">🔐 권한 관리</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 직원 정보 ══ -->
+<div id="pg-emp" class="pg">
+  <div class="ph"><div><div class="ph-t">직원 정보 관리</div><div class="ph-s">전체 임직원 조회 및 관리</div></div>
+    <button class="btn bgold adm-only" onclick="openM('addEmpM')">＋ 직원 추가</button></div>
+  <div class="sr">
+    <input class="sinp" placeholder="🔍 이름, 직급, 부서 검색..." oninput="filterEmp(this.value)">
+    <select class="fs" style="width:115px" onchange="filterEmpDept(this.value)">
+      <option value="">전체 부서</option><option>원장실</option><option>간호부</option><option>원무과</option><option>재활센터</option>
+    </select>
+  </div>
+  <div class="card">
+    <table class="tbl" id="empTbl">
+      <thead><tr><th>직원</th><th>부서</th><th>직급</th><th class="adm-col">연락처</th><th>입사일</th><th>권한</th><th class="adm-col">관리</th></tr></thead>
+      <tbody id="empTbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ 조직도 ══ -->
+<div id="pg-org" class="pg">
+  <div class="ph"><div><div class="ph-t">직원 조직도</div><div class="ph-s">부서별 조직 구조</div></div></div>
+  <div class="org-tabs" id="orgTabs">
+    <button class="org-tab on" data-org="all">전체</button>
+    <button class="org-tab" data-org="원장실">원장실</button>
+    <button class="org-tab" data-org="간호부">간호부</button>
+    <button class="org-tab" data-org="원무과">원무과</button>
+    <button class="org-tab" data-org="재활센터">재활센터</button>
+  </div>
+
+  <!-- 전체 조직도 -->
+  <div class="org-view on" id="org-all">
+    <div class="card"><div class="org">
+      <div class="org-lv"><div class="on2 root"><div class="or2">대표원장</div><div class="on2n">김민준</div></div></div>
+      <div class="org-vl"></div>
+      <div style="display:flex;justify-content:center;gap:28px">
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="on2 dh"><div class="or2">원장실</div><div class="on2n">김민준</div><div class="on2d">진료·행정 총괄</div></div>
+          <div class="org-vl"></div>
+          <div style="display:flex;gap:7px">
+            <div class="on2"><div class="or2">한의사</div><div class="on2n">이정훈</div></div>
+            <div class="on2"><div class="or2">행정실장</div><div class="on2n">김예진</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="on2 dh"><div class="or2">간호부</div><div class="on2n">이수연</div><div class="on2d">수간호사</div></div>
+          <div class="org-vl"></div>
+          <div style="display:flex;gap:7px">
+            <div class="on2"><div class="or2">간호사</div><div class="on2n">한소희</div></div>
+            <div class="on2"><div class="or2">간호조무사</div><div class="on2n">오지수</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="on2 dh"><div class="or2">원무과</div><div class="on2n">최유진</div><div class="on2d">원무팀장</div></div>
+          <div class="org-vl"></div>
+          <div style="display:flex;gap:7px">
+            <div class="on2"><div class="or2">원무</div><div class="on2n">서미래</div></div>
+            <div class="on2"><div class="or2">원무</div><div class="on2n">박나영</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="on2 dh"><div class="or2">재활센터</div><div class="on2n">박지훈</div><div class="on2d">물리치료사</div></div>
+          <div class="org-vl"></div>
+          <div style="display:flex;gap:7px">
+            <div class="on2"><div class="or2">침구사</div><div class="on2n">정다은</div></div>
+            <div class="on2"><div class="or2">재활치료사</div><div class="on2n">강현우</div></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- 원장실 -->
+  <div class="org-view" id="org-원장실">
+    <div class="dept-card">
+      <div class="dept-card-head"><div class="dept-badge" style="background:rgba(201,168,76,.12)">🏛️</div><div><div class="dept-name">원장실</div><div class="dept-head">책임자: 김민준 대표원장 · 총 3명</div></div></div>
+      <div class="dept-members">
+        <div class="dept-member"><div class="av" style="background:#3d7a5e;width:36px;height:36px;font-size:14px">김</div><div class="dm-info"><div class="dm-name">김민준</div><div class="dm-role">대표원장</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#4a7f6a;width:36px;height:36px;font-size:14px">이</div><div class="dm-info"><div class="dm-name">이정훈</div><div class="dm-role">한의사</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#8a7a5a;width:36px;height:36px;font-size:14px">김</div><div class="dm-info"><div class="dm-name">김예진</div><div class="dm-role">행정실장</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 간호부 -->
+  <div class="org-view" id="org-간호부">
+    <div class="dept-card">
+      <div class="dept-card-head"><div class="dept-badge" style="background:rgba(155,35,53,.1)">🩺</div><div><div class="dept-name">간호부</div><div class="dept-head">책임자: 이수연 수간호사 · 총 3명</div></div></div>
+      <div class="dept-members">
+        <div class="dept-member"><div class="av" style="background:#c9a84c;width:36px;height:36px;font-size:14px">이</div><div class="dm-info"><div class="dm-name">이수연</div><div class="dm-role">수간호사</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#7a5a9a;width:36px;height:36px;font-size:14px">한</div><div class="dm-info"><div class="dm-name">한소희</div><div class="dm-role">간호사</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#9a7a5a;width:36px;height:36px;font-size:14px">오</div><div class="dm-info"><div class="dm-name">오지수</div><div class="dm-role">간호조무사</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 원무과 -->
+  <div class="org-view" id="org-원무과">
+    <div class="dept-card">
+      <div class="dept-card-head"><div class="dept-badge" style="background:rgba(26,26,46,.07)">📋</div><div><div class="dept-name">원무과</div><div class="dept-head">책임자: 최유진 원무팀장 · 총 3명</div></div></div>
+      <div class="dept-members">
+        <div class="dept-member"><div class="av" style="background:#1a1a2e;width:36px;height:36px;font-size:14px">최</div><div class="dm-info"><div class="dm-name">최유진</div><div class="dm-role">원무팀장</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#8a6a4a;width:36px;height:36px;font-size:14px">서</div><div class="dm-info"><div class="dm-name">서미래</div><div class="dm-role">원무</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#6a8a7a;width:36px;height:36px;font-size:14px">박</div><div class="dm-info"><div class="dm-name">박나영</div><div class="dm-role">원무</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 재활센터 -->
+  <div class="org-view" id="org-재활센터">
+    <div class="dept-card">
+      <div class="dept-card-head"><div class="dept-badge" style="background:rgba(65,120,160,.1)">💪</div><div><div class="dept-name">재활센터</div><div class="dept-head">책임자: 박지훈 물리치료사 · 총 3명</div></div></div>
+      <div class="dept-members">
+        <div class="dept-member"><div class="av" style="background:#9b2335;width:36px;height:36px;font-size:14px">박</div><div class="dm-info"><div class="dm-name">박지훈</div><div class="dm-role">물리치료사</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#5a7a9a;width:36px;height:36px;font-size:14px">정</div><div class="dm-info"><div class="dm-name">정다은</div><div class="dm-role">침구사</div></div></div>
+        <div class="dept-member"><div class="av" style="background:#4a6a8a;width:36px;height:36px;font-size:14px">강</div><div class="dm-info"><div class="dm-name">강현우</div><div class="dm-role">재활치료사</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 근태 관리 ══ -->
+<div id="pg-att" class="pg">
+  <div class="ph"><div><div class="ph-t">근태 관리</div><div class="ph-s">직원별 출퇴근 현황 — 관리자 전용</div></div>
+    <button class="btn bgh adm-only" onclick="openM('addAttM')">수기 입력</button></div>
+  <div id="att-lock" class="ib ibr" style="display:none"><div class="ib-t">🔒 접근 권한 없음</div>이 메뉴는 관리자만 접근할 수 있습니다.</div>
+  <div id="att-body">
+    <div class="ib ibs" style="margin-bottom:14px">
+      <div class="ib-t">📊 근태 상태 기준</div>
+      <b>우수</b>: 결근 0회 + 지각 0회 &nbsp;·&nbsp; <b>양호</b>: 결근 0회 + 지각 1~2회 (또는 결근 1회) &nbsp;·&nbsp; <b>주의</b>: 지각 3회 이상 또는 결근 2회 이상
+    </div>
+    <div class="sg g3" style="margin-bottom:14px">
+      <div class="st jade"><div class="sl">정상 출근</div><div class="sv">62</div><div class="sn">이번 달</div></div>
+      <div class="st gold"><div class="sl">지각</div><div class="sv">3</div><div class="sn">이번 달</div></div>
+      <div class="st red"><div class="sl">결근</div><div class="sv">1</div><div class="sn">이번 달</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="cht">직원별 근태 현황</span><button class="btn bgh bsm">📥 내보내기</button></div>
+      <table class="tbl"><thead><tr><th>직원</th><th>출근일</th><th>지각</th><th>결근</th><th>초과근무</th><th>상태</th><th>관리</th></tr></thead><tbody>
+        <tr><td><div class="emp"><div class="av" style="background:#3d7a5e">김</div><div><div class="en">김민준</div><div class="ei">원장실</div></div></div></td><td>14일</td><td>0</td><td>0</td><td>12h</td><td><span class="bd bj">우수</span></td><td><button class="btn bgh bsm" onclick="openM('addAttM')">상세</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#c9a84c">이</div><div><div class="en">이수연</div><div class="ei">간호부</div></div></div></td><td>13일</td><td>1</td><td>0</td><td>4h</td><td><span class="bd bj">양호</span></td><td><button class="btn bgh bsm" onclick="openM('addAttM')">상세</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#9b2335">박</div><div><div class="en">박지훈</div><div class="ei">재활센터</div></div></div></td><td>14일</td><td>0</td><td>0</td><td>2h</td><td><span class="bd bj">우수</span></td><td><button class="btn bgh bsm" onclick="openM('addAttM')">상세</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#1a1a2e">최</div><div><div class="en">최유진</div><div class="ei">원무과</div></div></div></td><td>11일</td><td>2</td><td>0</td><td>0h</td><td><span class="bd bg">양호</span></td><td><button class="btn bgh bsm" onclick="openM('addAttM')">상세</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#5a7a9a">정</div><div><div class="en">정다은</div><div class="ei">재활센터</div></div></div></td><td>13일</td><td>0</td><td>1</td><td>0h</td><td><span class="bd bg">양호</span></td><td><button class="btn bgh bsm" onclick="openM('addAttM')">상세</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#7a5a9a">한</div><div><div class="en">한소희</div><div class="ei">간호부</div></div></div></td><td>12일</td><td>3</td><td>0</td><td>0h</td><td><span class="bd br">주의</span></td><td><button class="btn bgh bsm" onclick="openM('addAttM')">상세</button></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 연차 관리 ══ -->
+<div id="pg-leave" class="pg">
+  <div class="ph"><div><div class="ph-t">연차 관리</div><div class="ph-s">휴가 신청 및 잔여 연차</div></div>
+    <button class="btn bgold" onclick="openM('addLeaveM')">＋ 휴가 신청</button></div>
+  <div class="ll">
+    <div>
+      <div class="cal">
+        <div class="cal-h"><span class="cal-t" id="calTitle">2025년 3월</span><div style="display:flex;gap:4px"><button class="cal-nb" onclick="changeMonth(-1)">‹</button><button class="cal-nb" onclick="changeMonth(1)">›</button></div></div>
+        <div class="cg" id="calGrid"></div>
+        <div id="cal-selected-info" style="margin-top:10px;min-height:44px;padding:8px 10px;border-radius:7px;background:var(--cream);font-size:12px;color:var(--muted);display:flex;align-items:center">
+          날짜를 클릭하면 연차자를 확인할 수 있습니다
+        </div>
+      </div>
+      <div style="height:11px"></div>
+      <div class="card">
+        <div class="ch"><span class="cht">잔여 연차</span></div>
+        <table class="tbl"><thead><tr><th>직원</th><th>총</th><th>사용</th><th>잔여</th></tr></thead><tbody>
+          <tr><td><div class="emp"><div class="av" style="background:#3d7a5e;width:22px;height:22px;font-size:9px">김</div>김민준</div></td><td>15</td><td>3</td><td><span class="bd bj">12일</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#c9a84c;width:22px;height:22px;font-size:9px">이</div>이수연</div></td><td>15</td><td>5</td><td><span class="bd bj">10일</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#9b2335;width:22px;height:22px;font-size:9px">박</div>박지훈</div></td><td>15</td><td>2</td><td><span class="bd bj">13일</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#1a1a2e;width:22px;height:22px;font-size:9px">최</div>최유진</div></td><td>15</td><td>8</td><td><span class="bd bg">7일</span></td></tr>
+          <tr><td><div class="emp"><div class="av" style="background:#5a7a9a;width:22px;height:22px;font-size:9px">정</div>정다은</div></td><td>15</td><td>4</td><td><span class="bd bj">11일</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="cht">휴가 신청 내역</span></div>
+      <table class="tbl"><thead><tr><th>직원</th><th>구분</th><th>기간</th><th>상태</th><th class="adm-col">관리</th></tr></thead><tbody>
+        <tr><td><div class="emp"><div class="av" style="background:#c9a84c;width:22px;height:22px;font-size:9px">이</div>이수연</div></td><td>연차</td><td>3/25~26</td><td><span class="bd bj">승인</span></td><td class="adm-col"><button class="btn bgh bsm" onclick="toast('취소 처리')">취소</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#1a1a2e;width:22px;height:22px;font-size:9px">최</div>최유진</div></td><td>연차</td><td>3/20</td><td><span class="bd bj">승인</span></td><td class="adm-col"><button class="btn bgh bsm" onclick="toast('취소 처리')">취소</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#3d7a5e;width:22px;height:22px;font-size:9px">김</div>김민준</div></td><td>연차</td><td>4/2~4</td><td><span class="bd bg">검토중</span></td><td class="adm-col"><div style="display:flex;gap:4px"><button class="btn bjade bsm" onclick="toast('승인')">승인</button><button class="btn bred bsm" onclick="toast('반려')">반려</button></div></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#5a7a9a;width:22px;height:22px;font-size:9px">정</div>정다은</div></td><td>병가</td><td>3/19~21</td><td><span class="bd bj">승인</span></td><td class="adm-col"><button class="btn bgh bsm" onclick="toast('취소 처리')">취소</button></td></tr>
+        <tr><td><div class="emp"><div class="av" style="background:#9b2335;width:22px;height:22px;font-size:9px">박</div>박지훈</div></td><td>연차</td><td>4/7</td><td><span class="bd bg">검토중</span></td><td class="adm-col"><div style="display:flex;gap:4px"><button class="btn bjade bsm" onclick="toast('승인')">승인</button><button class="btn bred bsm" onclick="toast('반려')">반려</button></div></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 인사 평가 ══ -->
+<div id="pg-eval" class="pg">
+  <div class="ph"><div><div class="ph-t">인사 평가</div><div class="ph-s">직원별 인사평가 관리 — 관리자 전용</div></div>
+    <button class="btn bgold adm-only" onclick="openM('addEvalM')">＋ 평가 입력</button></div>
+  <div id="eval-lock" class="ib ibr" style="display:none"><div class="ib-t">🔒 접근 권한 없음</div>이 메뉴는 관리자만 접근할 수 있습니다.</div>
+  <div id="eval-body">
+    <div class="sg g3" style="margin-bottom:14px">
+      <div class="st jade"><div class="sl">평가 완료</div><div class="sv">14</div><div class="sn">2025 상반기</div></div>
+      <div class="st gold"><div class="sl">평가 대기</div><div class="sv">4</div><div class="sn">2025 상반기</div></div>
+      <div class="st sky"><div class="sl">평균 점수</div><div class="sv">87</div><div class="sn">/ 100점</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="cht">직원별 인사평가</span>
+        <div style="display:flex;gap:7px">
+          <select class="fs" style="width:120px;padding:5px 9px;font-size:12px"><option>2025 상반기</option><option>2024 하반기</option></select>
+          <button class="btn bgh bsm">📥 내보내기</button>
+        </div>
+      </div>
+      <table class="tbl"><thead><tr><th>직원</th><th>부서</th><th>업무성과</th><th>태도·협력</th><th>전문성</th><th>종합</th><th>등급</th><th>관리</th></tr></thead>
+      <tbody id="evalTbody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 공지사항 ══ -->
+<div id="pg-notice" class="pg">
+  <div class="ph"><div><div class="ph-t">공지사항</div><div class="ph-s">병원 내부 공지 및 안내</div></div>
+    <button class="btn bgold adm-only" onclick="openM('addNoticeM')">＋ 공지 작성</button></div>
+  <div class="ntabs" id="noticeTabs">
+    <button class="ntab on" data-cat="전체">전체</button>
+    <button class="ntab" data-cat="급여">💰 급여</button>
+    <button class="ntab" data-cat="연차">🗓 연차</button>
+    <button class="ntab" data-cat="건강검진">🩺 건강검진</button>
+    <button class="ntab" data-cat="교육">📚 교육</button>
+    <button class="ntab" data-cat="행사">🎉 행사</button>
+    <button class="ntab" data-cat="일반">📋 일반</button>
+  </div>
+  <div id="noticeListWrap"></div>
+</div>
+
+<!-- ══ 온보딩 ══ -->
+<div id="pg-ob" class="pg">
+  <div class="ph"><div><div class="ph-t">온보딩 매뉴얼</div><div class="ph-s">신규 입사자를 위한 단계별 안내</div></div>
+    <button class="btn bgold adm-only" onclick="openM('newObM')">＋ 온보딩 시작</button></div>
+  <div class="obl">
+    <div class="obnav">
+      <div class="obn-h">📋 목차</div>
+      <div class="obn-i on" onclick="goOb(0,this)"><span>👋</span>환영 인사<span class="ob-ck">✓</span></div>
+      <div class="obn-i" onclick="goOb(1,this)"><span>📄</span>입사 서류<span class="ob-ck">✓</span></div>
+      <div class="obn-i" onclick="goOb(2,this)"><span>🏥</span>병원 소개<span class="ob-ck">✓</span></div>
+      <div class="obn-i" onclick="goOb(3,this)"><span>⏰</span>근무 규정<span class="ob-ck">✓</span></div>
+      <div class="obn-i" onclick="goOb(4,this)"><span>💻</span>시스템 안내<span class="ob-ck">✓</span></div>
+      <div class="obn-i" onclick="goOb(5,this)"><span>📞</span>주요 연락처<span class="ob-ck">✓</span></div>
+      <div class="obn-i" onclick="goOb(6,this)"><span>🏷️</span>환자 유형 코드<span class="ob-ck">✓</span></div>
+      <div class="ob-pw">
+        <div class="ob-pl"><span>전체 진행률</span><span id="obPct">0%</span></div>
+        <div class="prog"><div class="pf" id="obBar" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px" id="obCount">0 / 12 항목 완료</div>
+      </div>
+    </div>
+    <div>
+      <div class="obs on" id="ob0">
+        <div class="ob-hero"><div class="ob-hi">👋</div><div class="ob-ht">경희우리한방병원에 오신 것을 환영합니다!</div><div class="ob-hd">아래 체크리스트를 하나씩 완료하면 진행률이 업데이트됩니다.</div></div>
+        <div class="ob-cl">
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">원장님 면담 완료</div><div class="ob-cli-desc">입사 첫날 오전 10시, 원장실에서 원장님과의 면담을 진행합니다.</div><div class="ob-cli-tags"><span class="ob-cli-tag">📍 원장실</span><span class="ob-cli-tag">⏱ 30분</span></div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">팀원 소개 및 병원 투어 완료</div><div class="ob-cli-desc">인사담당자가 각 부서 팀원을 소개하고 병원 시설을 안내합니다.</div><div class="ob-cli-tags"><span class="ob-cli-tag">👥 전 직원</span><span class="ob-cli-tag">⏱ 1시간</span></div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">환영 점심 식사</div><div class="ob-cli-desc">소속 부서 팀원들과 함께하는 환영 점심 시간입니다.</div></div></div>
+        </div>
+        <div class="ib"><div class="ib-t">💡 첫날 준비물</div>신분증 사본 · 통장 사본 · 자격증 사본 · 도장</div>
+        <div class="ob-nb"><div></div><button class="btn bgold" onclick="goObId(1)">다음 →</button></div>
+      </div>
+      <div class="obs" id="ob1">
+        <div class="ob-hero"><div class="ob-hi">📄</div><div class="ob-ht">입사 서류 안내</div><div class="ob-hd">아래 서류를 입사일 당일 또는 3일 이내에 제출해 주세요.</div></div>
+        <div class="ob-cl">
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">근로계약서 서명 및 제출</div><div class="ob-cli-desc">병원 제공 양식, 2부 작성 후 1부 반환</div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">주민등록등본 제출 (발급 3개월 이내)</div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">통장 사본 제출 (급여 수령 계좌)</div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">자격증·면허증 사본 제출</div></div></div>
+        </div>
+        <div class="ob-nb"><button class="btn bgh" onclick="goObId(0)">← 이전</button><button class="btn bgold" onclick="goObId(2)">다음 →</button></div>
+      </div>
+      <div class="obs" id="ob2">
+        <div class="ob-hero"><div class="ob-hi">🏥</div><div class="ob-ht">병원 소개</div><div class="ob-hd">2005년 설립. 원장실·간호부·원무과·재활센터 4개 부서로 운영됩니다.</div></div>
+        <div class="ob-cl">
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">병원 비전 및 진료 철학 숙지</div><div class="ob-cli-desc">음양오행의 조화를 바탕으로 환자 맞춤 한방 치료를 제공합니다.</div></div></div>
+        </div>
+        <div class="ob-nb"><button class="btn bgh" onclick="goObId(1)">← 이전</button><button class="btn bgold" onclick="goObId(3)">다음 →</button></div>
+      </div>
+      <div class="obs" id="ob3">
+        <div class="ob-hero"><div class="ob-hi">⏰</div><div class="ob-ht">근무 규정 안내</div><div class="ob-hd">근무 시간, 복장 규정, 행동 강령 등 기본 규정을 확인하세요.</div></div>
+        <div class="ob-cl">
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">근무 시간 확인</div><div class="ob-cli-desc">평일 09:00~18:00 · 격주 토요일 09:00~13:00 · 일/공휴일 휴무</div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">복장 규정 및 유니폼 수령 확인</div><div class="ob-cli-desc">의료진: 병원 지급 유니폼 필수. 행정직: 비즈니스 캐주얼.</div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">연차·휴가 규정 확인</div><div class="ob-cli-desc">1년 미만: 매월 1일 발생 · 1년 이상: 연 15일 · 3일 전 신청</div></div></div>
+        </div>
+        <div class="ob-nb"><button class="btn bgh" onclick="goObId(2)">← 이전</button><button class="btn bgold" onclick="goObId(4)">다음 →</button></div>
+      </div>
+      <div class="obs" id="ob4">
+        <div class="ob-hero"><div class="ob-hi">💻</div><div class="ob-ht">업무 시스템 안내</div><div class="ob-hd">계정 발급은 입사 당일 IT 담당자(내선 202)가 지원합니다.</div></div>
+        <div class="ob-cl">
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">EMR 계정 발급 및 로그인 확인</div><div class="ob-cli-desc">IT 담당자(내선 202) 연락 후 발급</div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">인사관리시스템 계정 발급 확인</div></div></div>
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">응급 매뉴얼 숙지</div><div class="ob-cli-desc">응급 상황 대응 매뉴얼 PDF 필독 (6p)</div></div></div>
+        </div>
+        <div class="ob-nb"><button class="btn bgh" onclick="goObId(3)">← 이전</button><button class="btn bgold" onclick="goObId(5)">다음 →</button></div>
+      </div>
+      <div class="obs" id="ob5">
+        <div class="ob-hero"><div class="ob-hi">📞</div><div class="ob-ht">주요 연락처</div><div class="ob-hd">아래 담당자 연락처를 저장해두세요.</div></div>
+        <div class="ob-cl">
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">주요 연락처 저장 완료</div><div class="ob-cli-desc">원장(내선 100) · 인사담당(내선 201) · 수간호사(내선 301) · IT(내선 202)</div></div></div>
+        </div>
+        <div class="cc-g" style="margin-top:12px">
+          <div class="cc"><div class="cc-r">대표원장</div><div class="cc-n">김민준</div><div class="cc-i">📞 내선 100</div></div>
+          <div class="cc"><div class="cc-r">인사담당 (원무과)</div><div class="cc-n">최유진</div><div class="cc-i">📞 내선 201</div></div>
+          <div class="cc"><div class="cc-r">수간호사 (간호부)</div><div class="cc-n">이수연</div><div class="cc-i">📞 내선 301</div></div>
+          <div class="cc"><div class="cc-r">IT 담당 (재활센터)</div><div class="cc-n">박지훈</div><div class="cc-i">📞 내선 202</div></div>
+        </div>
+        <div class="ib ibj"><div class="ib-t" style="color:var(--jade)">다음 단계가 있어요!</div>환자 유형 코드도 꼭 숙지해주세요 😊</div>
+        <div class="ob-nb"><button class="btn bgh" onclick="goObId(4)">← 이전</button><button class="btn bgold" onclick="goObId(6)">다음 →</button></div>
+      </div>
+
+      <!-- ob6: 환자 유형 코드 -->
+      <div class="obs" id="ob6">
+        <div class="ob-hero" style="background:linear-gradient(135deg,#1a1a2e 60%,#2e1a2e)">
+          <div class="ob-hi">🏷️</div>
+          <div class="ob-ht">환자 유형 코드</div>
+          <div class="ob-hd">원내에서 사용하는 환자 유형 분류 코드입니다. 직원 간 소통 시 활용하며 환자 앞에서는 절대 사용하지 않습니다.</div>
+        </div>
+        <div class="ib ibr" style="margin-bottom:14px">
+          <div class="ib-t">⚠️ 사용 주의사항</div>
+          이 코드는 <b>직원 내부 소통 전용</b>입니다. 환자 앞에서 코드를 언급하거나 외부에 유출하는 것은 엄격히 금지됩니다.
+        </div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="ch"><span class="cht">환자 유형 코드표</span><span class="bd bx">내부 전용</span></div>
+          <table class="tbl">
+            <thead><tr><th style="width:60px">코드</th><th style="width:160px">의미 (어원)</th><th>특징</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--gold)">M</span></td>
+                <td style="color:var(--muted);font-size:12px">MONEY</td>
+                <td>수가(돈)에 민감</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--jade)">T</span></td>
+                <td style="color:var(--muted);font-size:12px">TIME</td>
+                <td>시간에 민감</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--sky)">YE</span></td>
+                <td style="color:var(--muted);font-size:12px">YE (예민의 '예')</td>
+                <td><b>예민</b>, 까다로움</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--red)">NP</span></td>
+                <td style="color:var(--muted);font-size:12px">Neuropsychiatry</td>
+                <td><b>정신적</b>으로 이상함</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--gold)">K</span></td>
+                <td style="color:var(--muted);font-size:12px">KING</td>
+                <td>왕처럼 행동함</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--jade)">E</span></td>
+                <td style="color:var(--muted);font-size:12px">EAR</td>
+                <td>귀 닫음 / 듣고 싶은 말만 들음 / <b>고집</b></td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--sky)">H</span></td>
+                <td style="color:var(--muted);font-size:12px">HIDDEN</td>
+                <td>진상 아닌 척하는 진상</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--red)">C</span></td>
+                <td style="color:var(--muted);font-size:12px">CHATTY</td>
+                <td>말이 많음</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:monospace;font-size:15px;font-weight:800;color:var(--ink)">X</span></td>
+                <td style="color:var(--muted);font-size:12px">MIX</td>
+                <td><b>전체적으로 전부 해당</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ob-cl">
+          <div class="ob-cli" onclick="toggleCl(this)"><div class="ob-chkbox">✓</div><div class="ob-cli-body"><div class="ob-cli-title">환자 유형 코드 9가지 숙지 완료</div><div class="ob-cli-desc">M · T · YE · NP · K · E · H · C · X 의 의미와 특징을 모두 이해했습니다.</div></div></div>
+        </div>
+        <div class="ib ibj" style="margin-top:12px"><div class="ib-t" style="color:var(--jade)">🎉 온보딩 완료!</div>모든 항목을 체크하면 온보딩이 완료됩니다. 궁금한 점은 인사담당자(최유진, 내선 201)에게 연락 주세요!</div>
+        <div class="ob-nb"><button class="btn bgh" onclick="goObId(5)">← 이전</button><button class="btn bjade" onclick="finishOb()">✅ 완료 처리</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 권한 관리 ══ -->
+<div id="pg-perm" class="pg">
+  <div class="ph"><div><div class="ph-t">권한 관리</div><div class="ph-s">직원별 시스템 접근 권한 설정</div></div></div>
+  <div class="ib"><div class="ib-t">ℹ️ 권한 안내</div><b>관리자</b>: 모든 메뉴 + 근태·인사평가·연락처·편집 접근 가능 &nbsp;·&nbsp; <b>일반 직원</b>: 본인 조회·휴가 신청·공지 열람</div>
+  <div class="pg2">
+    <div class="pc"><div class="pc-t">👑 관리자 권한</div><div class="pc-d">인사관리 전체 조회·수정·삭제</div>
+      <div class="pr"><span>직원 정보 수정/삭제</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>연락처 열람</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>근태 관리 접근</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>인사평가 관리</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>휴가 승인/반려</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>공지사항 작성</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+    </div>
+    <div class="pc"><div class="pc-t">👤 일반 직원 권한</div><div class="pc-d">본인 관련 정보 조회 및 신청만 가능</div>
+      <div class="pr"><span>본인 정보 조회</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>휴가 신청</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>공지사항 열람</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>온보딩 매뉴얼 열람</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="pr"><span>타직원 연락처 열람</span><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+    </div>
+  </div>
+  <div class="card"><div class="ch"><span class="cht">직원별 권한 설정</span></div>
+    <table class="tbl"><thead><tr><th>직원</th><th>부서</th><th>현재 권한</th><th>변경</th></tr></thead><tbody id="permBody"></tbody></table>
+  </div>
+</div>
+
+</main>
+</div>
+<!-- MODALS -->
+<div class="ov" id="addEmpM"><div class="modal">
+  <div class="mt">직원 추가<button class="mc" onclick="closeM('addEmpM')">×</button></div>
+  <div class="id-info">
+    <div class="ib-t" style="margin-bottom:5px">🔑 직원 ID는 자동 생성됩니다</div>
+    입력 후 저장하면 <span class="id-code" id="previewId">KHW-2025-009</span> 형태의 ID가 자동 부여됩니다.<br>
+    이 ID로 인사관리시스템 로그인 계정이 생성됩니다.
+  </div>
+  <div class="f2"><div class="fg"><label class="fl">이름</label><input class="fi" id="newEmpName" placeholder="홍길동" oninput="previewEmpId()"></div><div class="fg"><label class="fl">직급</label><input class="fi" placeholder="간호사"></div></div>
+  <div class="f2"><div class="fg"><label class="fl">부서</label><select class="fs"><option>원장실</option><option>간호부</option><option>원무과</option><option>재활센터</option></select></div><div class="fg"><label class="fl">입사일</label><input class="fi" type="date" id="newEmpDate" oninput="previewEmpId()"></div></div>
+  <div class="f2"><div class="fg"><label class="fl">연락처</label><input class="fi" placeholder="010-0000-0000"></div><div class="fg"><label class="fl">권한</label><select class="fs"><option>일반 직원</option><option>관리자</option></select></div></div>
+  <div class="mf"><button class="btn bgh" onclick="closeM('addEmpM')">취소</button><button class="btn bgold" onclick="closeM('addEmpM');toast('직원이 추가되고 계정이 생성되었습니다')">저장 및 계정 생성</button></div>
+</div></div>
+
+<div class="ov" id="addAttM"><div class="modal"><div class="mt">출퇴근 수기 입력<button class="mc" onclick="closeM('addAttM')">×</button></div><div class="fg"><label class="fl">직원</label><select class="fs"><option>김민준</option><option>이수연</option><option>박지훈</option><option>최유진</option><option>정다은</option></select></div><div class="fg"><label class="fl">날짜</label><input class="fi" type="date"></div><div class="f2"><div class="fg"><label class="fl">출근</label><input class="fi" type="time" value="09:00"></div><div class="fg"><label class="fl">퇴근</label><input class="fi" type="time" value="18:00"></div></div><div class="fg"><label class="fl">비고</label><input class="fi" placeholder="특이사항"></div><div class="mf"><button class="btn bgh" onclick="closeM('addAttM')">취소</button><button class="btn bjade" onclick="closeM('addAttM');toast('저장되었습니다')">저장</button></div></div></div>
+
+<div class="ov" id="addLeaveM"><div class="modal"><div class="mt">휴가 신청<button class="mc" onclick="closeM('addLeaveM')">×</button></div><div class="fg"><label class="fl">직원</label><select class="fs"><option>김민준</option><option>이수연</option><option>박지훈</option><option>최유진</option><option>정다은</option></select></div><div class="fg"><label class="fl">유형</label><select class="fs"><option>연차</option><option>반차(오전)</option><option>반차(오후)</option><option>병가</option><option>경조사</option></select></div><div class="f2"><div class="fg"><label class="fl">시작일</label><input class="fi" type="date"></div><div class="fg"><label class="fl">종료일</label><input class="fi" type="date"></div></div><div class="fg"><label class="fl">사유</label><input class="fi" placeholder="선택 사항"></div><div class="mf"><button class="btn bgh" onclick="closeM('addLeaveM')">취소</button><button class="btn bgold" onclick="closeM('addLeaveM');toast('휴가 신청 완료')">신청</button></div></div></div>
+
+<div class="ov" id="addNoticeM"><div class="modal"><div class="mt">공지 작성<button class="mc" onclick="closeM('addNoticeM')">×</button></div><div class="f2"><div class="fg"><label class="fl">분류</label><select class="fs"><option>일반</option><option>급여</option><option>연차</option><option>건강검진</option><option>교육</option><option>행사</option></select></div><div class="fg"><label class="fl">작성자</label><input class="fi" value="김민준"></div></div><div class="fg"><label class="fl">제목</label><input class="fi" placeholder="공지 제목"></div><div class="fg"><label class="fl">내용</label><textarea class="fi" placeholder="공지 내용을 입력하세요"></textarea></div><div class="mf"><button class="btn bgh" onclick="closeM('addNoticeM')">취소</button><button class="btn bgold" onclick="closeM('addNoticeM');toast('공지사항이 등록되었습니다')">등록</button></div></div></div>
+
+<div class="ov" id="addEvalM"><div class="modal"><div class="mt">인사평가 입력<button class="mc" onclick="closeM('addEvalM')">×</button></div><div class="f2"><div class="fg"><label class="fl">직원</label><select class="fs"><option>김민준</option><option>이수연</option><option>박지훈</option><option>최유진</option><option>정다은</option></select></div><div class="fg"><label class="fl">평가 기간</label><select class="fs"><option>2025 상반기</option><option>2024 하반기</option></select></div></div><div class="f2"><div class="fg"><label class="fl">업무성과</label><input class="fi" type="number" placeholder="0~100" min="0" max="100"></div><div class="fg"><label class="fl">태도·협력</label><input class="fi" type="number" placeholder="0~100" min="0" max="100"></div></div><div class="f2"><div class="fg"><label class="fl">전문성</label><input class="fi" type="number" placeholder="0~100" min="0" max="100"></div><div class="fg"><label class="fl">등급</label><select class="fs"><option>S</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div></div><div class="fg"><label class="fl">평가 의견</label><textarea class="fi" placeholder="직원에 대한 평가 의견"></textarea></div><div class="mf"><button class="btn bgh" onclick="closeM('addEvalM')">취소</button><button class="btn bgold" onclick="closeM('addEvalM');toast('인사평가가 저장되었습니다')">저장</button></div></div></div>
+
+<div class="ov" id="newObM"><div class="modal"><div class="mt">신규 온보딩 시작<button class="mc" onclick="closeM('newObM')">×</button></div><div class="ib"><div class="ib-t">📋 온보딩 대상자 지정</div>신규 입사자에게 매뉴얼 열람 권한과 담당 멘토를 배정합니다.</div><div class="f2"><div class="fg"><label class="fl">입사자 이름</label><input class="fi" placeholder="홍길동"></div><div class="fg"><label class="fl">입사일</label><input class="fi" type="date"></div></div><div class="f2"><div class="fg"><label class="fl">부서</label><select class="fs"><option>원장실</option><option>간호부</option><option>원무과</option><option>재활센터</option></select></div><div class="fg"><label class="fl">담당 멘토</label><select class="fs"><option>이수연</option><option>박지훈</option><option>최유진</option><option>정다은</option></select></div></div><div class="mf"><button class="btn bgh" onclick="closeM('newObM')">취소</button><button class="btn bgold" onclick="closeM('newObM');toast('온보딩이 시작되었습니다!')">시작</button></div></div></div>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+// ── INIT ──
+const now = new Date();
+document.getElementById('hdrDate').textContent = now.getFullYear()+'년 '+(now.getMonth()+1)+'월 '+now.getDate()+'일';
+document.getElementById('dashDate').textContent = now.getFullYear()+'년 '+(now.getMonth()+1)+'월 '+now.getDate()+'일';
+
+// ── ROLE ──
+let isAdmin = true;
+function applyRole() {
+  document.querySelectorAll('.adm-only').forEach(el => el.style.display = isAdmin ? '' : 'none');
+  document.querySelectorAll('.adm-col').forEach(el => el.style.display = isAdmin ? '' : 'none');
+  document.getElementById('att-lock').style.display = isAdmin ? 'none' : 'block';
+  document.getElementById('att-body').style.display = isAdmin ? 'block' : 'none';
+  document.getElementById('eval-lock').style.display = isAdmin ? 'none' : 'block';
+  document.getElementById('eval-body').style.display = isAdmin ? 'block' : 'none';
+}
+function toggleRole() {
+  isAdmin = !isAdmin;
+  const b = document.getElementById('rBadge');
+  b.textContent = isAdmin ? '👑 관리자' : '👤 일반 직원';
+  b.className = 'rbadge ' + (isAdmin ? 'adm' : 'usr');
+  applyRole();
+  renderEmps(emps);
+  toast(isAdmin ? '관리자 모드' : '일반 직원 모드');
+}
+applyRole();
+
+// ── NAVIGATION ──
+document.querySelectorAll('.sbi').forEach(item => {
+  item.addEventListener('click', function() {
+    document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.sbi').forEach(s => s.classList.remove('on'));
+    const p = document.getElementById('pg-' + this.dataset.pg);
+    if (p) p.classList.add('on');
+    this.classList.add('on');
+  });
+});
+function goNav(pg) { document.querySelectorAll('.sbi').forEach(s => { if(s.dataset.pg===pg) s.click(); }); }
+
+// ── EMP ID PREVIEW ──
+let empSeq = 9;
+function previewEmpId() {
+  const dateEl = document.getElementById('newEmpDate');
+  const yr = dateEl.value ? dateEl.value.split('-')[0] : new Date().getFullYear();
+  const seq = String(empSeq).padStart(3,'0');
+  document.getElementById('previewId').textContent = `KHW-${yr}-${seq}`;
+}
+previewEmpId();
+
+// ── EMPLOYEES ──
+let emps = [
+  {id:'KHW-2015-001',n:'김민준',d:'원장실',r:'대표원장',p:'010-1234-5678',h:'2015-03-01',role:'관리자',c:'#3d7a5e'},
+  {id:'KHW-2018-002',n:'이수연',d:'간호부',r:'수간호사',p:'010-2345-6789',h:'2018-06-15',role:'관리자',c:'#c9a84c'},
+  {id:'KHW-2020-003',n:'박지훈',d:'재활센터',r:'물리치료사',p:'010-3456-7890',h:'2020-01-10',role:'일반',c:'#9b2335'},
+  {id:'KHW-2019-004',n:'최유진',d:'원무과',r:'원무팀장',p:'010-4567-8901',h:'2019-04-20',role:'관리자',c:'#1a1a2e'},
+  {id:'KHW-2021-005',n:'정다은',d:'재활센터',r:'침구사',p:'010-5678-9012',h:'2021-09-01',role:'일반',c:'#5a7a9a'},
+  {id:'KHW-2022-006',n:'한소희',d:'간호부',r:'간호사',p:'010-6789-0123',h:'2022-03-15',role:'일반',c:'#7a5a9a'},
+  {id:'KHW-2020-007',n:'이정훈',d:'원장실',r:'한의사',p:'010-7890-1234',h:'2020-07-01',role:'일반',c:'#4a7f6a'},
+  {id:'KHW-2023-008',n:'서미래',d:'원무과',r:'원무',p:'010-8901-2345',h:'2023-01-10',role:'일반',c:'#8a6a4a'},
+];
+function renderEmps(list) {
+  document.getElementById('empTbody').innerHTML = list.map(e => `
+    <tr>
+      <td><div class="emp"><div class="av" style="background:${e.c}">${e.n[0]}</div>
+        <div><div class="en">${e.n}</div><div class="ei" style="font-family:monospace;font-size:10px;color:var(--muted)">${e.id}</div></div></div></td>
+      <td>${e.d}</td><td>${e.r}</td>
+      ${isAdmin ? `<td style="font-size:12px">${e.p}</td>` : ''}
+      <td>${e.h}</td>
+      <td><span class="bd ${e.role==='관리자'?'bi':'bs'}">${e.role==='관리자'?'👑 관리자':'👤 일반'}</span></td>
+      ${isAdmin ? `<td style="display:flex;gap:4px"><button class="btn bgh bsm" onclick="toast('${e.n} 편집')">편집</button><button class="btn bred bsm" onclick="toast('삭제')">삭제</button></td>` : ''}
+    </tr>`).join('');
+  document.querySelectorAll('#empTbl .adm-col').forEach(th => th.style.display = isAdmin ? '' : 'none');
+}
+renderEmps(emps);
+function filterEmp(q) { renderEmps(emps.filter(e=>e.n.includes(q)||e.r.includes(q)||e.d.includes(q))); }
+function filterEmpDept(d) { renderEmps(d ? emps.filter(e=>e.d===d) : emps); }
+
+// ── ORG TABS ──
+document.getElementById('orgTabs').addEventListener('click', e => {
+  if (!e.target.classList.contains('org-tab')) return;
+  document.querySelectorAll('.org-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.org-view').forEach(v => v.classList.remove('on'));
+  e.target.classList.add('on');
+  const key = e.target.dataset.org === 'all' ? 'org-all' : 'org-' + e.target.dataset.org;
+  document.getElementById(key).classList.add('on');
+});
+
+// ── EVAL ──
+const evalData = [
+  {n:'김민준',d:'원장실',c:'#3d7a5e',perf:95,att:98,exp:96,grade:'S'},
+  {n:'이수연',d:'간호부',c:'#c9a84c',perf:88,att:92,exp:85,grade:'A'},
+  {n:'박지훈',d:'재활센터',c:'#9b2335',perf:90,att:88,exp:92,grade:'A'},
+  {n:'최유진',d:'원무과',c:'#1a1a2e',perf:82,att:79,exp:80,grade:'B'},
+  {n:'정다은',d:'재활센터',c:'#5a7a9a',perf:85,att:90,exp:83,grade:'A'},
+  {n:'한소희',d:'간호부',c:'#7a5a9a',perf:72,att:75,exp:74,grade:'C'},
+];
+const gcol = {S:'bj',A:'bs',B:'bg',C:'br',D:'br'};
+document.getElementById('evalTbody').innerHTML = evalData.map(e => {
+  const avg = Math.round((e.perf+e.att+e.exp)/3);
+  return `<tr>
+    <td><div class="emp"><div class="av" style="background:${e.c}">${e.n[0]}</div><div><div class="en">${e.n}</div><div class="ei">${e.d}</div></div></div></td>
+    <td>${e.d}</td>
+    <td><div style="display:flex;align-items:center;gap:5px">${e.perf}<div class="prog" style="width:44px"><div class="pf" style="width:${e.perf}%"></div></div></div></td>
+    <td><div style="display:flex;align-items:center;gap:5px">${e.att}<div class="prog" style="width:44px"><div class="pf" style="width:${e.att}%;background:var(--sky)"></div></div></div></td>
+    <td><div style="display:flex;align-items:center;gap:5px">${e.exp}<div class="prog" style="width:44px"><div class="pf" style="width:${e.exp}%;background:var(--gold)"></div></div></div></td>
+    <td><b>${avg}</b></td>
+    <td><span class="bd ${gcol[e.grade]}" style="font-size:12px;padding:2px 10px">${e.grade}</span></td>
+    <td><button class="btn bgh bsm" onclick="toast('${e.n} 평가 수정')">수정</button></td>
+  </tr>`;
+}).join('');
+
+// ── PERM ──
+function renderPerm() {
+  document.getElementById('permBody').innerHTML = emps.map((e,i) => `
+    <tr>
+      <td><div class="emp"><div class="av" style="background:${e.c};width:23px;height:23px;font-size:9px">${e.n[0]}</div><div><div class="en">${e.n}</div><div class="ei">${e.r}</div></div></div></td>
+      <td>${e.d}</td>
+      <td><span class="bd ${e.role==='관리자'?'bi':'bs'}">${e.role==='관리자'?'👑 관리자':'👤 일반'}</span></td>
+      <td><select class="fs" style="width:110px;padding:4px 8px;font-size:11.5px" onchange="changeRole(${i},this.value)">
+        <option ${e.role==='일반'?'selected':''}>일반 직원</option>
+        <option ${e.role==='관리자'?'selected':''}>관리자</option>
+      </select></td>
+    </tr>`).join('');
+}
+renderPerm();
+function changeRole(i,v) { emps[i].role=v==='관리자'?'관리자':'일반'; renderEmps(emps); renderPerm(); toast(emps[i].n+' 권한 변경'); }
+
+// ── NOTICES ──
+const notices = [
+  {cat:'급여',date:'2025.03.18',author:'최유진',title:'3월 급여 지급일 안내',body:'3월 급여는 3월 25일(화)에 지급될 예정입니다. 계좌 변경은 3월 20일까지 원무과에 신청해 주세요.'},
+  {cat:'연차',date:'2025.03.15',author:'최유진',title:'3월 연차 사용 촉진 안내',body:'3월 말 기준 잔여 연차가 10일 이상인 직원은 4월 이전에 연차를 사용하시기 바랍니다.'},
+  {cat:'건강검진',date:'2025.03.10',author:'김민준',title:'4월 정기 건강검진 일정 안내',body:'4월 10일(목) 전 직원 정기 건강검진이 진행됩니다. 전날 저녁 9시 이후 금식해 주세요.'},
+  {cat:'교육',date:'2025.03.05',author:'이수연',title:'3월 심폐소생술 교육 안내',body:'3월 28일(금) 오후 2시 전 직원 심폐소생술 교육이 있습니다. 필수 참석입니다.'},
+  {cat:'행사',date:'2025.03.01',author:'김민준',title:'창립 20주년 기념 행사 안내',body:'2025년 3월 병원 창립 20주년을 맞아 전 직원 기념 행사가 4월 5일(토)에 진행됩니다.'},
+  {cat:'일반',date:'2025.02.20',author:'최유진',title:'주차 공간 이용 안내',body:'병원 지하 주차장 3층이 추가 개방되었습니다. 직원 차량은 3층을 우선 이용해 주세요.'},
+];
+const catC = {급여:'bg',연차:'bj',건강검진:'bs',교육:'bi',행사:'br',일반:'bx'};
+function renderNotices(cat) {
+  document.querySelectorAll('.ntab').forEach(t => t.classList.toggle('on', t.dataset.cat===cat));
+  const filtered = cat==='전체' ? notices : notices.filter(n=>n.cat===cat);
+  document.getElementById('noticeListWrap').innerHTML = filtered.length
+    ? filtered.map(n=>`<div class="nc"><div class="nc-meta"><span class="bd ${catC[n.cat]||'bx'}">${n.cat}</span><span style="font-size:10.5px;color:var(--muted)">${n.date}</span><span style="font-size:10.5px;color:var(--muted);margin-left:auto">${n.author}</span></div><div class="nc-t">${n.title}</div><div class="nc-b">${n.body}</div></div>`).join('')
+    : '<div style="text-align:center;padding:32px;color:var(--muted)">해당 카테고리의 공지사항이 없습니다</div>';
+}
+renderNotices('전체');
+document.getElementById('noticeTabs').addEventListener('click', e => { if(e.target.classList.contains('ntab')) renderNotices(e.target.dataset.cat); });
+
+// ── CALENDAR (click to see who's on leave) ──
+const leaveDays = {
+  '2025-3': {
+    7:  [{n:'이수연',type:'연차'}],
+    11: [{n:'정다은',type:'병가'}],
+    12: [{n:'정다은',type:'병가'}],
+    19: [{n:'정다은',type:'병가'},{n:'최유진',type:'연차'}],
+    20: [{n:'최유진',type:'연차'},{n:'한소희',type:'반차'},{n:'정다은',type:'병가'}],
+    21: [{n:'정다은',type:'병가'}],
+    25: [{n:'이수연',type:'연차'}],
+    26: [{n:'이수연',type:'연차'},{n:'김민준',type:'연차'}],
+  }
+};
+const typeC = {연차:'bj',병가:'br',반차:'bg'};
+let calYear=2025, calMonth=2;
+function renderCal() {
+  const key = calYear+'-'+(calMonth+1);
+  const ld = leaveDays[key]||{};
+  const firstDay = new Date(calYear,calMonth,1).getDay();
+  const dim = new Date(calYear,calMonth+1,0).getDate();
+  const prev = new Date(calYear,calMonth,0).getDate();
+  document.getElementById('calTitle').textContent = calYear+'년 '+(calMonth+1)+'월';
+  let html='<div class="cdn">일</div><div class="cdn">월</div><div class="cdn">화</div><div class="cdn">수</div><div class="cdn">목</div><div class="cdn">금</div><div class="cdn">토</div>';
+  for(let i=firstDay-1;i>=0;i--) html+=`<div class="cd other">${prev-i}</div>`;
+  for(let d=1;d<=dim;d++){
+    const isT=calYear===now.getFullYear()&&calMonth===now.getMonth()&&d===now.getDate();
+    const isW=new Date(calYear,calMonth,d).getDay()===0||new Date(calYear,calMonth,d).getDay()===6;
+    const hasL=ld[d]&&ld[d].length>0;
+    let cls='cd';
+    if(isT) cls+=' today';
+    else if(isW) cls+=' wknd';
+    if(hasL&&!isT) cls+=' has-leave';
+    const dots = hasL ? '<div class="leave-dots">'+ld[d].slice(0,3).map(()=>'<div class="ldot"></div>').join('')+'</div>' : '';
+    html+=`<div class="${cls}" onclick="showDayLeave(${d})">${d}${dots}</div>`;
+  }
+  document.getElementById('calGrid').innerHTML=html;
+  document.getElementById('cal-selected-info').innerHTML='날짜를 클릭하면 연차자를 확인할 수 있습니다';
+  document.getElementById('cal-selected-info').style.color='var(--muted)';
+}
+function showDayLeave(d) {
+  const key = calYear+'-'+(calMonth+1);
+  const ld = leaveDays[key]||{};
+  const info = document.getElementById('cal-selected-info');
+  const people = ld[d];
+  if (!people || people.length===0) {
+    info.innerHTML = `<span style="color:var(--muted)">${calMonth+1}월 ${d}일 — 연차·휴무 직원 없음</span>`;
+    info.style.color='var(--muted)';
+  } else {
+    const list = people.map(p=>`<span class="bd ${typeC[p.type]||'bx'}" style="margin-right:6px">${p.n} <span style="opacity:.7">${p.type}</span></span>`).join('');
+    info.innerHTML = `<div><div style="font-size:10.5px;color:var(--muted);margin-bottom:5px;font-weight:600">${calMonth+1}월 ${d}일 휴무·연차</div><div>${list}</div></div>`;
+    info.style.color='var(--text)';
+  }
+}
+function changeMonth(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}else if(calMonth<0){calMonth=11;calYear--;}renderCal();}
+renderCal();
+
+// ── MODAL ──
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+// ── TOAST ──
+let tt;
+function toast(msg){clearTimeout(tt);const el=document.getElementById('toastEl');el.textContent=msg;el.classList.add('on');tt=setTimeout(()=>el.classList.remove('on'),2300);}
+
+// ── ONBOARDING (checklist-based progress) ──
+const totalItems = document.querySelectorAll('.ob-cli').length;
+function updateObProgress() {
+  const checked = document.querySelectorAll('.ob-cli.checked').length;
+  const pct = Math.round(checked / totalItems * 100);
+  document.getElementById('obPct').textContent = pct+'%';
+  document.getElementById('obBar').style.width = pct+'%';
+  document.getElementById('obCount').textContent = checked+' / '+totalItems+' 항목 완료';
+  // update section nav done status
+  document.querySelectorAll('.obs').forEach((sec, idx) => {
+    const items = sec.querySelectorAll('.ob-cli');
+    const doneAll = items.length > 0 && [...items].every(i => i.classList.contains('checked'));
+    const navItem = document.querySelectorAll('.obn-i')[idx];
+    if (navItem) navItem.classList.toggle('done', doneAll);
+  });
+}
+function toggleCl(el) {
+  el.classList.toggle('checked');
+  updateObProgress();
+}
+function finishOb() {
+  document.querySelectorAll('.ob-cli').forEach(el => el.classList.add('checked'));
+  updateObProgress();
+  toast('🎉 온보딩 완료! 환영합니다!');
+}
+updateObProgress();
+
+let obV=new Set([0]);
+function goOb(i,el){
+  document.querySelectorAll('.obs').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.obn-i').forEach(n=>n.classList.remove('on'));
+  document.getElementById('ob'+i).classList.add('on');
+  (el||document.querySelectorAll('.obn-i')[i]).classList.add('on');
+  obV.add(i);
+}
+function goObId(i){goOb(i,null);}
+</script>
+</body>
+</html>
