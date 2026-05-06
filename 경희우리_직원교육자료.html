@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경희우리 직원 교육 자료</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #0B3D6E;
+    --blue-mid: #185FA5;
+    --blue-light: #D6E8F8;
+    --dark: #070C12;
+    --white: #FFFFFF;
+    --gray: #8A9AB0;
+    --gray-light: #E5E7EB;
+    --gold: #C9A84C;
+    --off-white: #F7F8FA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--off-white); color: var(--dark); }
+
+  /* ── 공통 ── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    background: var(--white);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+  .montserrat { font-family: 'Montserrat', sans-serif; }
+  .bebas { font-family: 'Bebas Neue', sans-serif; }
+
+  /* ══════════════════════════
+     COVER PAGE
+  ══════════════════════════ */
+  .cover {
+    background: var(--dark);
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 52px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-watermark {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 280px;
+    color: rgba(255,255,255,0.03);
+    bottom: -40px;
+    right: -20px;
+    line-height: 1;
+    letter-spacing: -6px;
+    pointer-events: none;
+  }
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .cover-hospital {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+  }
+  .cover-doc-type {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--blue-mid);
+    text-transform: uppercase;
+    border: 1px solid var(--blue-mid);
+    padding: 5px 12px;
+    border-radius: 2px;
+  }
+  .cover-body { position: relative; z-index: 2; }
+  .cover-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--blue-mid);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cover-label::before { content:''; width:28px; height:1px; background:var(--blue-mid); }
+  .cover-title {
+    font-size: clamp(40px, 7vw, 76px);
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    line-height: 1.0;
+    margin-bottom: 24px;
+  }
+  .cover-title .blue { color: var(--blue-mid); }
+  .cover-title .gold { color: var(--gold); }
+  .cover-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.8;
+    max-width: 480px;
+  }
+  .cover-sub strong { font-weight: 700; color: rgba(255,255,255,0.75); }
+  .cover-bottom-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue-mid), var(--gold), transparent);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ══════════════════════════
+     SECTION HEADER
+  ══════════════════════════ */
+  .sec-header {
+    padding: 52px 52px 0;
+    margin-bottom: 36px;
+  }
+  .sec-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--blue-mid);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sec-label::before { content:''; width:20px; height:1.5px; background:var(--blue-mid); }
+  .sec-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--dark);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .sec-title .blue { color: var(--blue-mid); }
+  .sec-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gray);
+    margin-top: 8px;
+    line-height: 1.7;
+  }
+
+  /* ══════════════════════════
+     PAGE 1: WOORI 핵심가치
+  ══════════════════════════ */
+  .woori-rows { padding: 0 52px 52px; }
+
+  .woori-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    border-top: 1px solid var(--gray-light);
+    padding: 28px 0;
+    align-items: start;
+    transition: background 0.15s;
+  }
+  .woori-item:last-child { border-bottom: 1px solid var(--gray-light); }
+
+  .wi-letter-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 4px;
+  }
+  .wi-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: var(--blue-mid);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .wi-en {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .wi-content { padding-left: 20px; border-left: 1.5px solid var(--gray-light); }
+  .wi-main {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .wi-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gray);
+    line-height: 1.75;
+  }
+
+  /* ══════════════════════════
+     PAGE 2: 직원 마음가짐
+  ══════════════════════════ */
+  .staff-rows { padding: 0 52px; }
+
+  .staff-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    border-top: 1px solid var(--gray-light);
+    padding: 28px 0;
+    align-items: start;
+  }
+  .staff-item:last-child { border-bottom: 1px solid var(--gray-light); }
+
+  .si-letter-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 4px;
+  }
+  .si-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: var(--dark);
+    line-height: 1;
+  }
+  .si-en {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .si-content { padding-left: 20px; border-left: 1.5px solid var(--gray-light); }
+  .si-main {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .si-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gray);
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+  .si-quote {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--blue-mid);
+    font-style: italic;
+    padding-left: 10px;
+    border-left: 2px solid var(--blue-light);
+    line-height: 1.6;
+  }
+
+  /* ── 다짐 박스 ── */
+  .dajim-wrap { padding: 40px 52px 52px; }
+  .dajim-box {
+    background: var(--dark);
+    border-radius: 8px;
+    padding: 40px 44px;
+  }
+  .dajim-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .dajim-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .dajim-row:last-child { border-bottom: none; }
+  .dajim-l {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: rgba(255,255,255,0.15);
+    width: 22px;
+    flex-shrink: 0;
+    line-height: 1.1;
+  }
+  .dajim-q {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+  .dajim-a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ══════════════════════════
+     PAGE 3: 재활은 한방이다
+  ══════════════════════════ */
+  .declaration-page {
+    background: var(--dark);
+    min-height: 560px;
+    padding: 52px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .decl-bg {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 220px;
+    color: rgba(255,255,255,0.025);
+    bottom: -30px;
+    right: -10px;
+    line-height: 1;
+    letter-spacing: -4px;
+    pointer-events: none;
+  }
+  .decl-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(24,95,165,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .decl-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    position: relative; z-index: 2;
+  }
+  .decl-body { position: relative; z-index: 2; }
+  .decl-statements { display: flex; flex-direction: column; gap: 0; }
+  .decl-stmt {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .decl-stmt:first-child { border-top: 1px solid rgba(255,255,255,0.06); }
+  .decl-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.15);
+    letter-spacing: 0.1em;
+    width: 24px;
+    flex-shrink: 0;
+  }
+  .decl-ko {
+    font-size: clamp(20px, 3.5vw, 32px);
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    flex: 1;
+  }
+  .decl-ko .hl { color: var(--blue-mid); }
+  .decl-ko .gold { color: var(--gold); }
+  .decl-en-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    text-align: right;
+    line-height: 1.5;
+    align-self: center;
+    min-width: 100px;
+  }
+
+  /* ══════════════════════════
+     MISSION FOOTER
+  ══════════════════════════ */
+  .mission-page {
+    background: var(--blue);
+    padding: 64px 52px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mission-page::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .mission-inner { position: relative; z-index: 2; max-width: 640px; }
+  .mission-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .mission-text {
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
+  .mission-text em { font-style: normal; color: var(--gold); }
+  .mission-divider {
+    width: 40px; height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 28px 0;
+  }
+  .mission-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+  }
+
+  /* ── 페이지 구분선 ── */
+  .page-sep {
+    height: 8px;
+    background: var(--off-white);
+  }
+
+  @media (max-width: 640px) {
+    .cover, .declaration-page, .mission-page { padding: 36px 28px; }
+    .sec-header, .woori-rows, .staff-rows, .dajim-wrap { padding-left: 28px; padding-right: 28px; }
+    .decl-en-tag { display: none; }
+    .cover-title { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ COVER ══════════ -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-watermark">WOORI</div>
+    <div class="cover-top">
+      <div class="cover-hospital montserrat">Kyunghee Woori Korean Medicine Hospital</div>
+      <div class="cover-doc-type montserrat">Staff Education</div>
+    </div>
+    <div class="cover-body">
+      <div class="cover-label">2025 직원 교육 자료</div>
+      <div class="cover-title">
+        재활은<br>
+        <span class="blue">한방</span>이고,<br>
+        한방은<br>
+        <span class="gold">경희우리</span>다.
+      </div>
+      <div class="cover-sub">
+        우리가 무엇을 위해 여기 있는지,<br>
+        어떤 마음으로 환자를 대해야 하는지 —<br>
+        <strong>경희우리의 가치와 마음가짐을 담았습니다.</strong>
+      </div>
+    </div>
+    <div class="cover-bottom-bar"></div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE 1: 환자에게 드리는 약속 ══════════ -->
+<div class="page-sep"></div>
+<div class="page">
+  <div class="sec-header">
+    <div class="sec-label">Part 01 — Our Promise to Patients</div>
+    <div class="sec-title">WOORI가 환자에게<br>드리는 <span class="blue">다섯 가지 약속</span></div>
+    <div class="sec-desc">경희우리의 이름 속에 담긴 우리의 존재 이유입니다.</div>
+  </div>
+
+  <div class="woori-rows">
+
+    <div class="woori-item">
+      <div class="wi-letter-wrap">
+        <div class="wi-letter">W</div>
+        <div class="wi-en">WHOLE CARE</div>
+      </div>
+      <div class="wi-content">
+        <div class="wi-main">몸 전체를 온전히 봅니다</div>
+        <div class="wi-desc">증상만 보지 않습니다. 환자의 몸 전체, 생활 전반을 함께 살핍니다.<br>양·한방 협진으로 어느 것 하나 놓치지 않습니다.</div>
+      </div>
+    </div>
+
+    <div class="woori-item">
+      <div class="wi-letter-wrap">
+        <div class="wi-letter">O</div>
+        <div class="wi-en">ORIGIN</div>
+      </div>
+      <div class="wi-content">
+        <div class="wi-main">통증의 근본을 치료합니다</div>
+        <div class="wi-desc">표면의 증상이 아닌, 통증이 시작된 근원을 찾아 치료합니다.<br>근본이 바로잡히면 몸은 스스로 회복합니다.</div>
+      </div>
+    </div>
+
+    <div class="woori-item">
+      <div class="wi-letter-wrap">
+        <div class="wi-letter">O</div>
+        <div class="wi-en">OVERCOME</div>
+      </div>
+      <div class="wi-content">
+        <div class="wi-main">함께 극복합니다</div>
+        <div class="wi-desc">통증도, 부상도, 포기하고 싶은 순간도 — 환자 혼자 넘지 않아도 됩니다.<br>경희우리가 끝까지 옆에서 함께 이겨냅니다.</div>
+      </div>
+    </div>
+
+    <div class="woori-item">
+      <div class="wi-letter-wrap">
+        <div class="wi-letter">R</div>
+        <div class="wi-en">RESTORE</div>
+      </div>
+      <div class="wi-content">
+        <div class="wi-main">본래의 강함으로 되돌립니다</div>
+        <div class="wi-desc">아프기 전의 몸, 뛰던 그 순간의 컨디션으로 돌아갑니다.<br>통증을 없애는 것이 아니라, 잃어버린 기능과 힘까지 되찾습니다.</div>
+      </div>
+    </div>
+
+    <div class="woori-item">
+      <div class="wi-letter-wrap">
+        <div class="wi-letter">I</div>
+        <div class="wi-en">INSIGHT</div>
+      </div>
+      <div class="wi-content">
+        <div class="wi-main">정확하게 꿰뚫어 봅니다</div>
+        <div class="wi-desc">데이터와 경험, 한의학적 직관이 합쳐진 깊은 통찰로<br>다른 곳에서 찾지 못한 답을 찾아냅니다.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ PAGE 2: 직원 마음가짐 ══════════ -->
+<div class="page-sep"></div>
+<div class="page">
+  <div class="sec-header">
+    <div class="sec-label">Part 02 — Staff Mindset</div>
+    <div class="sec-title">우리가 환자를 대하는<br><span class="blue">다섯 가지 마음</span></div>
+    <div class="sec-desc">복잡하지 않습니다. 이 다섯 가지면 충분합니다.</div>
+  </div>
+
+  <div class="staff-rows">
+
+    <div class="staff-item">
+      <div class="si-letter-wrap">
+        <div class="si-letter">W</div>
+        <div class="si-en">WELCOME</div>
+      </div>
+      <div class="si-content">
+        <div class="si-main">반갑게 맞이합니다</div>
+        <div class="si-desc">문을 열고 들어오는 순간부터 나가는 순간까지.<br>환자가 이곳에 온 것을 잘했다고 느끼게 합니다.</div>
+        <div class="si-quote">"첫 인상이 치료의 시작입니다."</div>
+      </div>
+    </div>
+
+    <div class="staff-item">
+      <div class="si-letter-wrap">
+        <div class="si-letter">O</div>
+        <div class="si-en">OBSERVE</div>
+      </div>
+      <div class="si-content">
+        <div class="si-main">먼저 살핍니다</div>
+        <div class="si-desc">환자가 말하기를 기다리지 않습니다.<br>작은 불편함도 내가 먼저 알아채고 다가갑니다.</div>
+        <div class="si-quote">"말하기 전에 알아채는 것이 세심함입니다."</div>
+      </div>
+    </div>
+
+    <div class="staff-item">
+      <div class="si-letter-wrap">
+        <div class="si-letter">O</div>
+        <div class="si-en">OWN</div>
+      </div>
+      <div class="si-content">
+        <div class="si-main">내 가족처럼 대합니다</div>
+        <div class="si-desc">내 가족이 아프다면 어떻게 할까.<br>그 마음으로 대하면 기준은 자연히 높아집니다.</div>
+        <div class="si-quote">"가장 가까운 사람에게 하듯 대한다."</div>
+      </div>
+    </div>
+
+    <div class="staff-item">
+      <div class="si-letter-wrap">
+        <div class="si-letter">R</div>
+        <div class="si-en">RESPONSIBILITY</div>
+      </div>
+      <div class="si-content">
+        <div class="si-main">끝까지 책임집니다</div>
+        <div class="si-desc">환자가 이곳을 찾은 것은 믿음 때문입니다.<br>그 믿음에 끝까지 응답하는 것이 우리의 책임입니다.</div>
+        <div class="si-quote">"찾아온 만큼, 끝까지 책임진다."</div>
+      </div>
+    </div>
+
+    <div class="staff-item">
+      <div class="si-letter-wrap">
+        <div class="si-letter">I</div>
+        <div class="si-en">INTEGRITY</div>
+      </div>
+      <div class="si-content">
+        <div class="si-main">항상 배우는 자세로 임합니다</div>
+        <div class="si-desc">내가 모든 것을 안다고 생각하는 순간, 성장은 멈춥니다.<br>환자에게서도, 동료에게서도, 매일의 진료에서도 배웁니다.</div>
+        <div class="si-quote">"가장 겸손한 사람이 가장 멀리 갑니다."</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 다짐 박스 -->
+  <div class="dajim-wrap">
+    <div class="dajim-box">
+      <div class="dajim-title montserrat">매일 아침, 우리의 다짐 — Daily Commitment</div>
+      <div class="dajim-row">
+        <div class="dajim-l">W</div>
+        <div>
+          <div class="dajim-q">반갑게 맞이했는가?</div>
+          <div class="dajim-a">문을 연 순간부터 따뜻하게 — 환자의 첫 감정을 내가 만든다.</div>
+        </div>
+      </div>
+      <div class="dajim-row">
+        <div class="dajim-l">O</div>
+        <div>
+          <div class="dajim-q">먼저 살폈는가?</div>
+          <div class="dajim-a">말하기 전에 알아채는 세심함 — 그것이 경희우리의 품격이다.</div>
+        </div>
+      </div>
+      <div class="dajim-row">
+        <div class="dajim-l">O</div>
+        <div>
+          <div class="dajim-q">내 가족이라면 어떻게 했을까?</div>
+          <div class="dajim-a">그 질문 하나가 진료의 기준을 바꾼다.</div>
+        </div>
+      </div>
+      <div class="dajim-row">
+        <div class="dajim-l">R</div>
+        <div>
+          <div class="dajim-q">끝까지 책임졌는가?</div>
+          <div class="dajim-a">믿고 찾아온 만큼, 처음부터 끝까지 내가 책임진다.</div>
+        </div>
+      </div>
+      <div class="dajim-row">
+        <div class="dajim-l">I</div>
+        <div>
+          <div class="dajim-q">어제보다 나아졌는가?</div>
+          <div class="dajim-a">더 잘할 수 있었던 순간을 기억하고, 내일은 더 나아진다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE 3: 재활은 한방이다 ══════════ -->
+<div class="page-sep"></div>
+<div class="page">
+  <div class="declaration-page">
+    <div class="decl-bg">HANBANG</div>
+    <div class="decl-glow"></div>
+    <div class="decl-label montserrat">Part 03 — Declaration · 우리의 선언</div>
+    <div class="decl-body">
+      <div class="decl-statements">
+        <div class="decl-stmt">
+          <div class="decl-num">01</div>
+          <div class="decl-ko">재활은 <span class="hl">한방</span>이다</div>
+          <div class="decl-en-tag montserrat">Rehabilitation<br>is Hanbang</div>
+        </div>
+        <div class="decl-stmt">
+          <div class="decl-num">02</div>
+          <div class="decl-ko">한방 재활의 기준은 <span class="hl">경희우리</span>다</div>
+          <div class="decl-en-tag montserrat">Woori is<br>the Standard</div>
+        </div>
+        <div class="decl-stmt">
+          <div class="decl-num">03</div>
+          <div class="decl-ko">칼 없이도 <span class="hl">돌아올 수 있다</span></div>
+          <div class="decl-en-tag montserrat">Return<br>Without Surgery</div>
+        </div>
+        <div class="decl-stmt">
+          <div class="decl-num">04</div>
+          <div class="decl-ko">당신의 회복은 <span class="hl">여기서 시작</span>된다</div>
+          <div class="decl-en-tag montserrat">Your Comeback<br>Starts Here</div>
+        </div>
+        <div class="decl-stmt">
+          <div class="decl-num">05</div>
+          <div class="decl-ko">더 <span class="gold">강하게</span> 돌아온다</div>
+          <div class="decl-en-tag montserrat">Come Back<br>Stronger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MISSION FOOTER ══════════ -->
+<div class="page-sep"></div>
+<div class="page">
+  <div class="mission-page">
+    <div class="mission-inner">
+      <div class="mission-label montserrat">Mission Statement — 경희우리한방병원 미션</div>
+      <div class="mission-text">
+        <em>압도적인 정확함</em>으로<br>
+        통증의 본질을 꿰뚫고,<br>
+        치료 그 이상의 경험을 완성한다.
+      </div>
+      <div class="mission-divider"></div>
+      <div class="mission-name montserrat">Kyunghee Woori Korean Medicine Hospital</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
